@@ -51,18 +51,8 @@ private:
 	{
 		if (this->size_for_ch > (double)0.8 * this->size)
 		{
+			size_for_ch = 0;
 			Resize();
-		}
-	}
-
-public:
-
-	HashTable()
-	{
-		ptr = new ListNode * [this->size];
-		for (int i = 0; i < this->size; i++)
-		{
-			ptr[i] = nullptr;
 		}
 	}
 
@@ -77,38 +67,39 @@ public:
 		}
 		for (int i = 0; i < this->size / 2; i++)
 		{
-			if (oldptr[i] != nullptr)
+			while (oldptr[i] != nullptr)
 			{
-				ptr[i] = new ListNode();
-				ListNode* curr = ptr[i];
-				while (oldptr[i] != nullptr)
+				if (oldptr[i]->next == nullptr)
 				{
-					if (curr->value == "")
-					{
-						this->ptr[i]->key = oldptr[i]->key;
-						this->ptr[i]->value = oldptr[i]->value;
-					}
-					else
-					{
-						while (curr->next != nullptr)
-						{
-							curr = curr->next;
-						}
-						if (curr->next == nullptr)
-						{
-							curr->next = new ListNode();
-							curr->next->value = oldptr[i]->value;
-							curr->next->key = oldptr[i]->key;
-						}
-					}
+					Insert(oldptr[i]->key, oldptr[i]->value);
 					ListNode* temp = oldptr[i];
-					oldptr[i] = oldptr[i]->next;
+					oldptr[i] = nullptr;
 					delete temp;
 				}
+				else
+				{
+					while (oldptr[i]->next != nullptr)
+					{
+						Insert(oldptr[i]->key, oldptr[i]->value);
+						ListNode* temp = oldptr[i];
+						oldptr[i] = oldptr[i]->next;
+						delete temp;
+					}
+				}
 			}
-			else continue;
+
 		}
 		delete[] oldptr;
+	}
+public:
+
+	HashTable()
+	{
+		ptr = new ListNode * [this->size];
+		for (int i = 0; i < this->size; i++)
+		{
+			ptr[i] = nullptr;
+		}
 	}
 
 	void Insert(string key, string value)
@@ -141,6 +132,12 @@ public:
 		}
 		Check();
 	}
+
+	void Search(string key)
+	{
+		int hash = HashFunc(key);
+
+	}
 };
 
 
@@ -153,4 +150,5 @@ int main()
 	table.Insert("B", "1");
 	table.Insert("A", "segkgkx");
 	table.Insert("D", "segffdffgfgrfgekgkx");
+	table.Insert("G", "7");
 }
