@@ -3,12 +3,22 @@
 
 using namespace std;
 
-struct ListNode
+class ListNode
 {
+private:
 	int value;
 	int key;
-	ListNode* next = nullptr;
+public:
+	ListNode* next;
+	ListNode(int key, int value);
 };
+
+ListNode::ListNode(int key, int value)
+{
+	this->key = key;
+	this->value = value;
+	this->next = nullptr;
+}
 
 class HashTable
 {
@@ -17,7 +27,7 @@ private:
 	ListNode** ptr;
 public:
 
-	HashTable()//конструктор
+	HashTable()
 	{
 		ptr = new ListNode * [size];
 		for (int i = 0; i < size; i++)
