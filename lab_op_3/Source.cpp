@@ -135,8 +135,34 @@ public:
 
 	void Search(string key)
 	{
+		bool check = false;
 		int hash = HashFunc(key);
+		ListNode* curr = this->ptr[hash];
+		if (curr != nullptr)
+		{
+			while (curr != nullptr)
+			{
+				if (curr->key == key)
+				{
+					cout << curr->key << ": " << curr->value << endl;
+					curr = curr->next;
+					check = true;
+				}
+				else
+				{
+					curr = curr->next;
+				}
+			}
+			if (!check)
+			{
+				cout << key << " : Not found" << endl;
+			}
+		}
+	}
 
+	~HashTable()
+	{
+		delete[] ptr;
 	}
 };
 
@@ -151,4 +177,9 @@ int main()
 	table.Insert("A", "segkgkx");
 	table.Insert("D", "segffdffgfgrfgekgkx");
 	table.Insert("G", "7");
+
+	table.Search("Bd");
+	table.Search("A");
+	table.Search("cvb");
+
 }
