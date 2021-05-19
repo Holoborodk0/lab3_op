@@ -144,7 +144,7 @@ public:
 			{
 				if (curr->key == key)
 				{
-					cout << curr->key << ": " << curr->value << endl;
+					cout << curr->key << ": " << curr->value << endl << endl << endl;
 					curr = curr->next;
 					check = true;
 				}
@@ -169,17 +169,46 @@ public:
 
 int main()
 {
+
 	HashTable table;
-	table.Insert("A", "ff");
-	table.Insert("Bd", "fxa");
-	table.Insert("A", "sgrgc");
-	table.Insert("B", "1");
-	table.Insert("A", "segkgkx");
-	table.Insert("D", "segffdffgfgrfgekgkx");
-	table.Insert("G", "7");
-
-	table.Search("Bd");
-	table.Search("A");
-	table.Search("cvb");
-
+	string path = "C:\\C++\\lab_op_3\\File\\dict_processed.txt";
+	ifstream FIn(path);
+	if (!FIn.is_open()) cout << "Not op";
+	else cout << "Open";
+	cout << endl;
+	char poin = ';';
+	string key, value, s, sen;
+	string sum;
+	while (!FIn.eof())
+	{
+		getline(FIn, s);
+		for (int i = 0; s[i] != poin; i++) { key += s[i]; }
+		value = s.erase(0, key.size() + 2);
+		table.Insert(key, value);
+		key = "";
+		value = "";
+	}
+	cout << "Your sentence: ";
+	getline(cin, sen);
+	char end = '\0';
+	for (int i = 0; i <= sen.size(); i++)
+	{
+		if (!isspace(sen[i]) && sen[i] != end)
+		{
+			sum += sen[i];
+		}
+		else
+		{
+			for (int j = 0; j < sum.size(); j++)
+			{
+				if (sum[j] >= 97)
+				{
+					sum[j] -= 32;
+				}
+				else continue;
+			}
+			table.Search(sum);
+			sum = "";
+		}
+	}
 }
